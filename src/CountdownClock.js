@@ -15,7 +15,11 @@ class CountdownClock extends Component {
     const { totalTime, radius } = this.props;
     if (nextProps.timeout !== this.props.timeout) {
       const dashOffsetCircle = this.state.maxStrokeDasharray * (1 - nextProps.timeout / totalTime);
-      const circleInnerLength = Math.ceil(this.innerCircle.getTotalLength());
+      // getTotalLength() 已经被废除，在 Safari、Firefox 中已经不支持
+      // const circleInnerLength = Math.ceil(this.innerCircle.getTotalLength());
+      const circleInnerLength = Math.ceil(
+        parseInt(this.innerCircle.getAttribute('stroke-dasharray'), 10),
+      );
       const arcLength = circleInnerLength - dashOffsetCircle;
       const rad = arcLength / radius - Math.PI * 0.5;
       this.setState({
